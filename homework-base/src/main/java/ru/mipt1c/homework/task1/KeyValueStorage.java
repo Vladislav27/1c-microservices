@@ -1,6 +1,7 @@
 package ru.mipt1c.homework.task1;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.util.Iterator;
 
 /**
@@ -19,22 +20,22 @@ public interface KeyValueStorage<K, V> extends Closeable {
      * Возвращает значение для данного ключа, если оно есть в хранилище.
      * Иначе возвращает null.
      */
-    V read(K key);
+    V read(K key) throws IllegalAccessException;
 
     /**
      * Возвращает true, если данный ключ есть в хранилище
      */
-    boolean exists(K key);
+    boolean exists(K key) throws IllegalAccessException;
 
     /**
      * Записывает в хранилище пару ключ-значение.
      */
-    void write(K key, V value);
+    void write(K key, V value) throws IllegalAccessException;
 
     /**
      * Удаляет пару ключ-значение из хранилища.
      */
-    void delete(K key);
+    void delete(K key) throws IllegalAccessException;
 
     /**
      * Читает все ключи в хранилище.
@@ -42,17 +43,17 @@ public interface KeyValueStorage<K, V> extends Closeable {
      * Итератор должен бросать {@link java.util.ConcurrentModificationException},
      * если данные в хранилище были изменены в процессе итерирования.
      */
-    Iterator<K> readKeys();
+    Iterator<K> readKeys() throws IllegalAccessException;
 
     /**
      * Возвращает число ключей, которые сейчас в хранилище.
      */
-    int size();
+    int size() throws IllegalAccessException;
 
     /**
      * Приводит хранилище на диске в консистентное состояние на момент вызова. Может блокировать другие операции записи.
      */
-    default void flush() {
+    default void flush() throws IOException {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }
